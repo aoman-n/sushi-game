@@ -1,0 +1,8 @@
+export const UP_START = 'KEYBOARD/UP_START';
+export const UP_STOP = 'KEYBOARD/UP_STOP';
+export const LEFT_START = 'KEYBOARD/LEFT_START';
+export const LEFT_STOP = 'KEYBOARD/LEFT_STOP';
+export const DOWN_START = 'KEYBOARD/DOWN_START';
+export const DOWN_STOP = 'KEYBOARD/DOWN_STOP';
+export const RIGHT_START = 'KEYBOARD/RIGHT_START';
+export const RIGHT_STOP = 'KEYBOARD/RIGHT_STOP';
