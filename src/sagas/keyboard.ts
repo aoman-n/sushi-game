@@ -17,10 +17,10 @@ function* increment() {
     const { keyboard, player } = yield select(state => state);
     let { x, y }: { x: number; y: number } = player;
 
-    if (keyboard.up) y -= velocity;
-    if (keyboard.down) y += velocity;
-    if (keyboard.left) x -= velocity;
-    if (keyboard.right) x += velocity;
+    if (keyboard.up && y >= 0) y -= velocity;
+    if (keyboard.down && y < 360) y += velocity;
+    if (keyboard.left && x > 0) x -= velocity;
+    if (keyboard.right && x < 660) x += velocity;
 
     yield put(update({ x, y }));
     yield delay(1000 / 60);
