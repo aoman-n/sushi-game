@@ -2,7 +2,11 @@
 import { FC } from 'react';
 import { jsx } from '@emotion/core';
 import styled from '@emotion/styled';
-import sushi from './images/player.png';
+/* image icon */
+import playerImg from './images/player.png';
+import playerBulletImg from './images/playerBullet.png';
+import enemyImg from './images/enemy.png';
+/* types */
 import { Bullet } from '../reducers/playerBullet';
 import { Enemy } from '../reducers/enemy';
 
@@ -29,19 +33,23 @@ const GameScreen: FC<GameScreenProps> = ({
       <Screen>
         <WindowFrame>
           <WindowHeader />
-          <PlayerIcon alt="sushi" src={sushi} x={x} y={y} />
+          <PlayerIcon alt="player" src={playerImg} x={x} y={y} />
           {playerBullets.map(bullet => (
-            <PlayerBullet key={bullet.id} x={bullet.x} y={bullet.y}>
-              .
-            </PlayerBullet>
+            <PlayerBullet
+              key={bullet.id}
+              src={playerBulletImg}
+              alt="bullet"
+              x={bullet.x}
+              y={bullet.y}
+            />
           ))}
           {enemies.map(enemy => (
             <EnemyIcon
               key={enemy.id}
               x={enemy.x}
               y={enemy.y}
-              alt="sushi"
-              src={sushi}
+              alt="enemy"
+              src={enemyImg}
             />
           ))}
         </WindowFrame>
@@ -103,10 +111,9 @@ const PlayerIcon = styled.img<PlayerIconStyleProps>`
   top: ${props => props.y}px;
   left: ${props => props.x}px;
 `;
-const PlayerBullet = styled.span<PlayerBulletStyleProps>`
-  display: inline-block;
-  font-size: 30px;
-  color: green;
+const PlayerBullet = styled.img<PlayerBulletStyleProps>`
+  height: 10px;
+  width: 10px;
   position: absolute;
   top: ${props => props.y}px;
   left: ${props => props.x}px;

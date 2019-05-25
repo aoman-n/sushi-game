@@ -3,12 +3,12 @@ import { generateEnemy, updateEnemies } from '../actions/enemy';
 import { Enemy } from '../reducers/enemy';
 import { checkInFrame } from '../utils';
 
-const velocity = 30;
+const velocity = 5;
 let enemyId = 1;
 
 function* updateWorker() {
   while (true) {
-    yield delay(500);
+    yield delay(40);
     const { enemies } = yield select(state => state.enemy);
     const updatedEnemies = enemies.map((enemy: Enemy) => {
       const newEnemy = enemy;
