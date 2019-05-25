@@ -28,8 +28,8 @@ function* generateWorker() {
     yield put(
       generateEnemy({
         id: enemyId,
-        x: 700,
-        y: Math.round(Math.random() * 400),
+        x: 670,
+        y: Math.round(Math.random() * 380),
       }),
     );
     enemyId += 1;

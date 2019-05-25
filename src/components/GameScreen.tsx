@@ -27,21 +27,24 @@ const GameScreen: FC<GameScreenProps> = ({
   return (
     <Container>
       <Screen>
-        <PlayerIcon alt="sushi" src={sushi} x={x} y={y} />
-        {playerBullets.map(bullet => (
-          <PlayerBullet key={bullet.id} x={bullet.x} y={bullet.y}>
-            .
-          </PlayerBullet>
-        ))}
-        {enemies.map(enemy => (
-          <EnemyIcon
-            key={enemy.id}
-            x={enemy.x}
-            y={enemy.y}
-            alt="sushi"
-            src={sushi}
-          />
-        ))}
+        <WindowFrame>
+          <WindowHeader />
+          <PlayerIcon alt="sushi" src={sushi} x={x} y={y} />
+          {playerBullets.map(bullet => (
+            <PlayerBullet key={bullet.id} x={bullet.x} y={bullet.y}>
+              .
+            </PlayerBullet>
+          ))}
+          {enemies.map(enemy => (
+            <EnemyIcon
+              key={enemy.id}
+              x={enemy.x}
+              y={enemy.y}
+              alt="sushi"
+              src={sushi}
+            />
+          ))}
+        </WindowFrame>
       </Screen>
     </Container>
   );
@@ -66,12 +69,32 @@ const Container = styled.div`
   justify-content: center;
 `;
 const Screen = styled.div`
-  border: 2px solid gray;
-  border-radius: 10px;
   height: 400px;
   width: 700px;
+`;
+const WindowFrame = styled.div`
   position: relative;
-  background: #fafad2;
+  height: 100%;
+  width: 100%;
+  margin-top: 5px;
+  padding-top: 30px;
+  border: solid 5px #ddd;
+  border-top: 0;
+  border-radius: 4px;
+  background: #fcf1d3;
+`;
+const WindowHeader = styled.span`
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #ddd
+    url(https://webliker.info/wp-content/themes/template/img/common/dot-browser.png)
+    no-repeat left 10px top 50%;
+  background-size: 40px;
+  padding: 10px 0;
+  width: 100%;
+  height: 30px;
+  display: block;
 `;
 const PlayerIcon = styled.img<PlayerIconStyleProps>`
   height: 40px;
