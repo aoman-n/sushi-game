@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { FC, ReactNode } from 'react';
-import { jsx, css } from '@emotion/core';
+import { jsx } from '@emotion/core';
 import HtmlTitle from './HtmlTitle';
 
 interface LayoutProps {

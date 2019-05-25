@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState, KeyboardEvent } from 'react';
+import React, { FC, useEffect } from 'react';
 import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 /* action, reducer */

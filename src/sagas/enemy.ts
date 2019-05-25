@@ -1,5 +1,4 @@
 import { fork, put, delay, select } from 'redux-saga/effects';
-// import * as ActionType from '../actions/enemyConstants';
 import { generateEnemy, updateEnemies } from '../actions/enemy';
 import { Enemy } from '../reducers/enemy';
 import { checkInFrame } from '../utils';
