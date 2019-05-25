@@ -12,10 +12,17 @@ import {
   rightStart,
   rightStop,
 } from '../actions/keyboard';
+import {
+  generate as generateBullet,
+  GenerateParams,
+} from '../actions/playerBullet';
+import { PlayerState } from '../reducers/player';
+import { Bullet } from '../reducers/playerBullet';
 import GameScreen from '../components/GameScreen';
 
 interface StateProps {
-  player: { x: number; y: number };
+  player: PlayerState;
+  playerBullets: Bullet[];
 }
 
 interface DispatchProps {
@@ -27,12 +34,14 @@ interface DispatchProps {
   leftStop: () => void;
   rightStart: () => void;
   rightStop: () => void;
+  generateBullet: (params: GenerateParams) => void;
 }
 
 type EnhancedGameScreenProps = StateProps & DispatchProps;
 
 const mapStateToProps = (state: RootStateType): StateProps => ({
   player: state.player,
+  playerBullets: state.playerBullet.bullets,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch): DispatchProps =>
@@ -46,6 +55,7 @@ const mapDispatchToProps = (dispatch: Dispatch): DispatchProps =>
       leftStop: () => leftStop(),
       rightStart: () => rightStart(),
       rightStop: () => rightStop(),
+      generateBullet: (params: GenerateParams) => generateBullet(params),
     },
     dispatch,
   );
@@ -53,6 +63,7 @@ const mapDispatchToProps = (dispatch: Dispatch): DispatchProps =>
 /* eslint no-shadow: 0 */
 const GameScreenContainer: FC<EnhancedGameScreenProps> = ({
   player,
+  playerBullets,
   upStart,
   upStop,
   downStart,
@@ -61,7 +72,10 @@ const GameScreenContainer: FC<EnhancedGameScreenProps> = ({
   leftStop,
   rightStart,
   rightStop,
+  generateBullet,
 }) => {
+  const [bulletCoolTime, updateBulletCoolTime] = useState(0);
+
   useEffect(() => {
     window.addEventListener('keydown', e => {
       switch (e.code) {
@@ -78,6 +92,12 @@ const GameScreenContainer: FC<EnhancedGameScreenProps> = ({
           downStart();
           break;
         case 'KeyZ':
+          if (bulletCoolTime === 0) {
+            generateBullet({ id: playerBullets.length + 1, ...player });
+            updateBulletCoolTime(5);
+          } else {
+            updateBulletCoolTime(prev => prev - 1);
+          }
           break;
         default:
           break;
@@ -106,7 +126,7 @@ const GameScreenContainer: FC<EnhancedGameScreenProps> = ({
     });
   }, []);
 
-  return <GameScreen {...{ player }} />;
+  return <GameScreen {...{ player, playerBullets }} />;
 };
 
 export default connect(

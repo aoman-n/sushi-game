@@ -1,0 +1,3 @@
+export const GENERATE = 'PLAYER_BULLET/GENERATE';
+export const UPDATE = 'PLAYER_BULLET/UPDATE';
+export const DELETE = 'PLAYER_BULLET/DELETE';

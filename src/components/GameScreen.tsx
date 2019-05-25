@@ -3,6 +3,7 @@ import { FC } from 'react';
 import { jsx } from '@emotion/core';
 import styled from '@emotion/styled';
 import sushi from './images/sushi.png';
+import { Bullet } from '../reducers/playerBullet';
 
 interface Player {
   x: number;
@@ -11,21 +12,29 @@ interface Player {
 
 interface GameScreenProps {
   player: Player;
+  playerBullets: Bullet[];
 }
 
-const GameScreen: FC<GameScreenProps> = ({ player }) => {
+const GameScreen: FC<GameScreenProps> = ({ player, playerBullets }) => {
   const { x, y } = player;
 
   return (
     <Container>
       <Screen>
         <PlayerIcon alt="sushi" src={sushi} x={x} y={y} />
+        {playerBullets.map(bullet => (
+          <PlayerBullet x={bullet.x} y={bullet.y} />
+        ))}
       </Screen>
     </Container>
   );
 };
 
-interface PlayerIconProps {
+interface PlayerIconStyleProps {
+  x: number;
+  y: number;
+}
+interface PlayerBulletStyleProps {
   x: number;
   y: number;
 }
@@ -42,9 +51,15 @@ const Screen = styled.div`
   width: 700px;
   position: relative;
 `;
-const PlayerIcon = styled.img<PlayerIconProps>`
+const PlayerIcon = styled.img<PlayerIconStyleProps>`
   height: 40px;
   width: 40px;
+  position: absolute;
+  top: ${props => props.y}px;
+  left: ${props => props.x}px;
+`;
+const PlayerBullet = styled.span<PlayerBulletStyleProps>`
+  display: inline-block;
   position: absolute;
   top: ${props => props.y}px;
   left: ${props => props.x}px;
