@@ -11,7 +11,7 @@ import rootSaga from './sagas';
 import App from './App';
 
 import './styles/reset.css';
-// import 'semantic-ui-css/semantic.min.css';
+import 'semantic-ui-css/semantic.min.css';
 
 /* eslint-disable no-underscore-dangle, @typescript-eslint/no-explicit-any */
 const composeEnhancers =
