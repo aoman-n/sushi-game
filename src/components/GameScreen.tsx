@@ -4,6 +4,7 @@ import { jsx } from '@emotion/core';
 import styled from '@emotion/styled';
 import sushi from './images/player.png';
 import { Bullet } from '../reducers/playerBullet';
+import { Enemy } from '../reducers/enemy';
 
 interface Player {
   x: number;
@@ -13,9 +14,14 @@ interface Player {
 interface GameScreenProps {
   player: Player;
   playerBullets: Bullet[];
+  enemies: Enemy[];
 }
 
-const GameScreen: FC<GameScreenProps> = ({ player, playerBullets }) => {
+const GameScreen: FC<GameScreenProps> = ({
+  player,
+  playerBullets,
+  enemies,
+}) => {
   const { x, y } = player;
 
   return (
@@ -27,6 +33,15 @@ const GameScreen: FC<GameScreenProps> = ({ player, playerBullets }) => {
             .
           </PlayerBullet>
         ))}
+        {enemies.map(enemy => (
+          <EnemyIcon
+            key={enemy.id}
+            x={enemy.x}
+            y={enemy.y}
+            alt="sushi"
+            src={sushi}
+          />
+        ))}
       </Screen>
     </Container>
   );
@@ -37,6 +52,10 @@ interface PlayerIconStyleProps {
   y: number;
 }
 interface PlayerBulletStyleProps {
+  x: number;
+  y: number;
+}
+interface EnemyStyleProps {
   x: number;
   y: number;
 }
@@ -65,6 +84,13 @@ const PlayerBullet = styled.span<PlayerBulletStyleProps>`
   display: inline-block;
   font-size: 30px;
   color: green;
+  position: absolute;
+  top: ${props => props.y}px;
+  left: ${props => props.x}px;
+`;
+const EnemyIcon = styled.img<EnemyStyleProps>`
+  height: 20px;
+  width: 20px;
   position: absolute;
   top: ${props => props.y}px;
   left: ${props => props.x}px;

@@ -1,6 +1,7 @@
 import React, { FC, useEffect, useState, KeyboardEvent } from 'react';
 import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
+/* action, reducer */
 import { RootStateType } from '../reducers/index';
 import {
   upStart,
@@ -15,11 +16,14 @@ import {
 import { prepareBullet } from '../actions/playerBullet';
 import { PlayerState } from '../reducers/player';
 import { Bullet } from '../reducers/playerBullet';
+import { Enemy } from '../reducers/enemy';
+/* component */
 import GameScreen from '../components/GameScreen';
 
 interface StateProps {
   player: PlayerState;
   playerBullets: Bullet[];
+  enemies: Enemy[];
 }
 
 interface DispatchProps {
@@ -39,6 +43,7 @@ type EnhancedGameScreenProps = StateProps & DispatchProps;
 const mapStateToProps = (state: RootStateType): StateProps => ({
   player: state.player,
   playerBullets: state.playerBullet.bullets,
+  enemies: state.enemy.enemies,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch): DispatchProps =>
@@ -61,6 +66,7 @@ const mapDispatchToProps = (dispatch: Dispatch): DispatchProps =>
 const GameScreenContainer: FC<EnhancedGameScreenProps> = ({
   player,
   playerBullets,
+  enemies,
   upStart,
   upStop,
   downStart,
@@ -116,7 +122,7 @@ const GameScreenContainer: FC<EnhancedGameScreenProps> = ({
     });
   }, []);
 
-  return <GameScreen {...{ player, playerBullets }} />;
+  return <GameScreen {...{ player, playerBullets, enemies }} />;
 };
 
 export default connect(
