@@ -12,10 +12,7 @@ import {
   rightStart,
   rightStop,
 } from '../actions/keyboard';
-import {
-  generate as generateBullet,
-  GenerateParams,
-} from '../actions/playerBullet';
+import { prepareBullet } from '../actions/playerBullet';
 import { PlayerState } from '../reducers/player';
 import { Bullet } from '../reducers/playerBullet';
 import GameScreen from '../components/GameScreen';
@@ -34,7 +31,7 @@ interface DispatchProps {
   leftStop: () => void;
   rightStart: () => void;
   rightStop: () => void;
-  generateBullet: (params: GenerateParams) => void;
+  prepareBullet: () => void;
 }
 
 type EnhancedGameScreenProps = StateProps & DispatchProps;
@@ -55,7 +52,7 @@ const mapDispatchToProps = (dispatch: Dispatch): DispatchProps =>
       leftStop: () => leftStop(),
       rightStart: () => rightStart(),
       rightStop: () => rightStop(),
-      generateBullet: (params: GenerateParams) => generateBullet(params),
+      prepareBullet: () => prepareBullet(),
     },
     dispatch,
   );
@@ -72,10 +69,8 @@ const GameScreenContainer: FC<EnhancedGameScreenProps> = ({
   leftStop,
   rightStart,
   rightStop,
-  generateBullet,
+  prepareBullet,
 }) => {
-  const [bulletCoolTime, updateBulletCoolTime] = useState(0);
-
   useEffect(() => {
     window.addEventListener('keydown', e => {
       switch (e.code) {
@@ -92,12 +87,7 @@ const GameScreenContainer: FC<EnhancedGameScreenProps> = ({
           downStart();
           break;
         case 'KeyZ':
-          if (bulletCoolTime === 0) {
-            generateBullet({ id: playerBullets.length + 1, ...player });
-            updateBulletCoolTime(5);
-          } else {
-            updateBulletCoolTime(prev => prev - 1);
-          }
+          prepareBullet();
           break;
         default:
           break;

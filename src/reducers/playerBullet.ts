@@ -21,6 +21,8 @@ const playerBulletReducer: Reducer<PlayerBulletState, PlayerBulletAction> = (
   action: PlayerBulletAction,
 ) => {
   switch (action.type) {
+    case ActionType.PREPARE_BULLET:
+      return state;
     case ActionType.GENERATE:
       return {
         ...state,

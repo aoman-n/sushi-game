@@ -12,6 +12,10 @@ interface UpdatePrams {
   y: number;
 }
 
+export const prepareBullet = () => ({
+  type: ActionType.PREPARE_BULLET as typeof ActionType.PREPARE_BULLET,
+});
+
 export const generate = (params: GenerateParams) => ({
   type: ActionType.GENERATE as typeof ActionType.GENERATE,
   payload: { params },
@@ -28,6 +32,7 @@ export const deleteBullet = (params: { id: number }) => ({
 });
 
 export type PlayerBulletAction =
+  | ReturnType<typeof prepareBullet>
   | ReturnType<typeof generate>
   | ReturnType<typeof update>
   | ReturnType<typeof deleteBullet>;

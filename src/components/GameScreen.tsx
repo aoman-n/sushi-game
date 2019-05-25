@@ -23,7 +23,9 @@ const GameScreen: FC<GameScreenProps> = ({ player, playerBullets }) => {
       <Screen>
         <PlayerIcon alt="sushi" src={sushi} x={x} y={y} />
         {playerBullets.map(bullet => (
-          <PlayerBullet x={bullet.x} y={bullet.y} />
+          <PlayerBullet key={bullet.id} x={bullet.x} y={bullet.y}>
+            .
+          </PlayerBullet>
         ))}
       </Screen>
     </Container>
@@ -50,6 +52,7 @@ const Screen = styled.div`
   height: 400px;
   width: 700px;
   position: relative;
+  background: #fafad2;
 `;
 const PlayerIcon = styled.img<PlayerIconStyleProps>`
   height: 40px;
@@ -60,6 +63,8 @@ const PlayerIcon = styled.img<PlayerIconStyleProps>`
 `;
 const PlayerBullet = styled.span<PlayerBulletStyleProps>`
   display: inline-block;
+  font-size: 30px;
+  color: green;
   position: absolute;
   top: ${props => props.y}px;
   left: ${props => props.x}px;

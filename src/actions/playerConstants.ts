@@ -1,1 +1,1 @@
-export const UPDATE = 'PLRYER/UPDATE';
+export const UPDATE = 'PLAYER/UPDATE';

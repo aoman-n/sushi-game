@@ -8,8 +8,8 @@ export interface PlayerState {
 }
 
 const initialState: PlayerState = {
-  x: 10,
-  y: 10,
+  x: 50,
+  y: 200,
 };
 
 const keyboardReducer: Reducer<PlayerState, PlayerAction> = (
