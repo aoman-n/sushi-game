@@ -5,6 +5,7 @@ import { checkInFrame, randRange } from '../utils';
 import { enemySize } from '../config';
 
 const velocity = 5;
+const coolTimeMsec = 5000;
 let enemyId = 1;
 
 function* updateWorker() {
@@ -34,7 +35,7 @@ function* generateWorker() {
       }),
     );
     enemyId += 1;
-    yield delay(5000);
+    yield delay(coolTimeMsec);
   }
 }
 

@@ -10,6 +10,7 @@ import * as ActionType from '../actions/playerBulletConstants';
 import { generate, update, deleteBullet } from '../actions/playerBullet';
 
 const velocity = 20;
+const coolTimeMsec = 800;
 let playerBulletId = 1;
 
 /* TODO:
@@ -42,7 +43,7 @@ function* prepareBullet() {
 }
 
 function* prepareBulletWatcher() {
-  yield throttle(800, ActionType.PREPARE_BULLET, prepareBullet);
+  yield throttle(coolTimeMsec, ActionType.PREPARE_BULLET, prepareBullet);
 }
 
 function* generatePalyerBulletWatcher() {
