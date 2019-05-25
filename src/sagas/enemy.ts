@@ -1,7 +1,7 @@
 import { fork, put, delay, select } from 'redux-saga/effects';
 import { generateEnemy, updateEnemies } from '../actions/enemy';
 import { Enemy } from '../reducers/enemy';
-import { checkInFrame } from '../utils';
+import { checkInFrame, randRange } from '../utils';
 
 const velocity = 5;
 let enemyId = 1;
@@ -29,7 +29,7 @@ function* generateWorker() {
       generateEnemy({
         id: enemyId,
         x: 670,
-        y: Math.round(Math.random() * 380),
+        y: randRange(30, 370),
       }),
     );
     enemyId += 1;

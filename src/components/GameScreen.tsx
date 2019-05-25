@@ -112,15 +112,15 @@ const PlayerIcon = styled.img<PlayerIconStyleProps>`
   left: ${props => props.x}px;
 `;
 const PlayerBullet = styled.img<PlayerBulletStyleProps>`
-  height: 10px;
-  width: 10px;
+  height: 20px;
+  width: 20px;
   position: absolute;
   top: ${props => props.y}px;
   left: ${props => props.x}px;
 `;
 const EnemyIcon = styled.img<EnemyStyleProps>`
-  height: 20px;
-  width: 20px;
+  height: 30px;
+  width: 30px;
   position: absolute;
   top: ${props => props.y}px;
   left: ${props => props.x}px;
