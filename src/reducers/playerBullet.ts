@@ -42,6 +42,11 @@ const playerBulletReducer: Reducer<PlayerBulletState, PlayerBulletAction> = (
         bullets: newBullets,
       };
     }
+    case ActionType.UPDATE_BULLETS:
+      return {
+        ...state,
+        bullets: action.payload.params.bullets,
+      };
     case ActionType.DELETE:
       return {
         ...state,

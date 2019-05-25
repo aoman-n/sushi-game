@@ -2,37 +2,34 @@ import {
   fork,
   put,
   delay,
-  takeEvery,
+  takeLeading,
   select,
   throttle,
 } from 'redux-saga/effects';
-import * as ActionType from '../actions/playerBulletConstants';
-import { generate, update, deleteBullet } from '../actions/playerBullet';
+import * as Actions from '../actions/playerBulletConstants';
+import { generate, updateBullets } from '../actions/playerBullet';
+import { Bullet } from '../reducers/playerBullet';
+import { checkInFrame } from '../utils';
 
-const velocity = 20;
+const velocity = 5;
 const coolTimeMsec = 800;
 let playerBulletId = 1;
 
-/* TODO:
- * 現状、玉の数だけupdateが走り処理が重くなってしまうので、
- * 一度のupdate dispatchですべての玉を更新出来るようにする。
- */
-function* movePlayerBullet(action: ReturnType<typeof generate>) {
-  const { id, x, y } = action.payload.params;
-  const newBullet = { id, x, y };
+function* updateWorker() {
   while (true) {
-    yield delay(100);
-    newBullet.x += velocity;
-    if (
-      newBullet.x > 700 ||
-      newBullet.x < 0 ||
-      newBullet.y > 400 ||
-      newBullet.y < 0
-    ) {
-      yield put(deleteBullet({ id }));
-      break;
-    }
-    yield put(update(newBullet));
+    yield delay(1000 / 30);
+    const { bullets } = yield select(state => state.playerBullet);
+    if (bullets.length === 0) break;
+    const updatedBullets = bullets.map((bullet: Bullet) => {
+      const newBullet = bullet;
+      newBullet.x += velocity;
+
+      return newBullet;
+    });
+    const deletedBullets = updatedBullets.filter((bullet: Bullet) =>
+      checkInFrame(bullet),
+    );
+    yield put(updateBullets({ bullets: deletedBullets }));
   }
 }
 
@@ -43,11 +40,11 @@ function* prepareBullet() {
 }
 
 function* prepareBulletWatcher() {
-  yield throttle(coolTimeMsec, ActionType.PREPARE_BULLET, prepareBullet);
+  yield throttle(coolTimeMsec, Actions.PREPARE_BULLET, prepareBullet);
 }
 
 function* generatePalyerBulletWatcher() {
-  yield takeEvery(ActionType.GENERATE, movePlayerBullet);
+  yield takeLeading(Actions.GENERATE, updateWorker);
 }
 
 export default function* rootSaga() {
