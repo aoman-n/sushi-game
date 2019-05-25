@@ -2,7 +2,7 @@
 import { FC } from 'react';
 import { jsx } from '@emotion/core';
 import styled from '@emotion/styled';
-import sushi from './images/sushi.png';
+import sushi from './images/player.png';
 import { Bullet } from '../reducers/playerBullet';
 
 interface Player {
