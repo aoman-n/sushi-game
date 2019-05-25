@@ -84,7 +84,7 @@ const GameScreenContainer: FC<EnhancedGameScreenProps> = ({
       }
     });
 
-    window.addEventListener('keyup', (e => {
+    window.addEventListener('keyup', e => {
       switch (e.code) {
         case 'ArrowLeft':
           leftStop();
