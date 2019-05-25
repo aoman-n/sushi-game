@@ -9,6 +9,7 @@ import {
 } from 'redux-saga/effects';
 import * as Actions from '../actions/keyboardConstants';
 import { update } from '../actions/plaryer';
+import { playerSize } from '../config';
 
 const velocity = 5;
 
@@ -17,10 +18,10 @@ function* increment() {
     const { keyboard, player } = yield select(state => state);
     let { x, y }: { x: number; y: number } = player;
 
-    if (keyboard.up && y >= 0) y -= velocity;
-    if (keyboard.down && y < 360) y += velocity;
+    if (keyboard.up && y > 0) y -= velocity;
+    if (keyboard.down && y < 400 - playerSize) y += velocity;
     if (keyboard.left && x > 0) x -= velocity;
-    if (keyboard.right && x < 660) x += velocity;
+    if (keyboard.right && x < 700 - playerSize) x += velocity;
 
     yield put(update({ x, y }));
     yield delay(1000 / 60);

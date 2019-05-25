@@ -1,4 +1,5 @@
 /** @jsx jsx */
+/* lib */
 import { FC } from 'react';
 import { jsx } from '@emotion/core';
 import styled from '@emotion/styled';
@@ -9,6 +10,13 @@ import enemyImg from './images/enemy.png';
 /* types */
 import { Bullet } from '../reducers/playerBullet';
 import { Enemy } from '../reducers/enemy';
+/* other */
+import {
+  playerSize,
+  playerBulletSize,
+  enemySize,
+  gameScreenSize,
+} from '../config';
 
 interface Player {
   x: number;
@@ -30,9 +38,9 @@ const GameScreen: FC<GameScreenProps> = ({
 
   return (
     <Container>
-      <Screen>
-        <WindowFrame>
-          <WindowHeader />
+      <WindowFrame>
+        <WindowHeader />
+        <WindowScreen>
           <PlayerIcon alt="player" src={playerImg} x={x} y={y} />
           {playerBullets.map(bullet => (
             <PlayerBullet
@@ -52,21 +60,13 @@ const GameScreen: FC<GameScreenProps> = ({
               src={enemyImg}
             />
           ))}
-        </WindowFrame>
-      </Screen>
+        </WindowScreen>
+      </WindowFrame>
     </Container>
   );
 };
 
-interface PlayerIconStyleProps {
-  x: number;
-  y: number;
-}
-interface PlayerBulletStyleProps {
-  x: number;
-  y: number;
-}
-interface EnemyStyleProps {
+interface PositionStyleProps {
   x: number;
   y: number;
 }
@@ -76,14 +76,10 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
 `;
-const Screen = styled.div`
-  height: 400px;
-  width: 700px;
-`;
 const WindowFrame = styled.div`
   position: relative;
-  height: 100%;
-  width: 100%;
+  height: ${gameScreenSize.height}px;
+  width: ${gameScreenSize.width}px;
   margin-top: 5px;
   padding-top: 30px;
   border: solid 5px #ddd;
@@ -103,24 +99,31 @@ const WindowHeader = styled.span`
   width: 100%;
   height: 30px;
   display: block;
+  box-sizing: border-box;
 `;
-const PlayerIcon = styled.img<PlayerIconStyleProps>`
-  height: 40px;
-  width: 40px;
+const WindowScreen = styled.div`
+  position: relative;
+  height: 100%;
+  width: 100%;
+`;
+const PlayerIcon = styled.img<PositionStyleProps>`
+  display: block;
+  height: ${playerSize}px;
+  width: ${playerSize}px;
   position: absolute;
   top: ${props => props.y}px;
   left: ${props => props.x}px;
 `;
-const PlayerBullet = styled.img<PlayerBulletStyleProps>`
-  height: 20px;
-  width: 20px;
+const PlayerBullet = styled.img<PositionStyleProps>`
+  height: ${playerBulletSize}px;
+  width: ${playerBulletSize}px;
   position: absolute;
   top: ${props => props.y}px;
   left: ${props => props.x}px;
 `;
-const EnemyIcon = styled.img<EnemyStyleProps>`
-  height: 30px;
-  width: 30px;
+const EnemyIcon = styled.img<PositionStyleProps>`
+  height: ${enemySize}px;
+  width: ${enemySize}px;
   position: absolute;
   top: ${props => props.y}px;
   left: ${props => props.x}px;

@@ -2,13 +2,14 @@ import { fork, put, delay, select } from 'redux-saga/effects';
 import { generateEnemy, updateEnemies } from '../actions/enemy';
 import { Enemy } from '../reducers/enemy';
 import { checkInFrame, randRange } from '../utils';
+import { enemySize } from '../config';
 
 const velocity = 5;
 let enemyId = 1;
 
 function* updateWorker() {
   while (true) {
-    yield delay(40);
+    yield delay(1000 / 30);
     const { enemies } = yield select(state => state.enemy);
     const updatedEnemies = enemies.map((enemy: Enemy) => {
       const newEnemy = enemy;
@@ -28,8 +29,8 @@ function* generateWorker() {
     yield put(
       generateEnemy({
         id: enemyId,
-        x: 670,
-        y: randRange(30, 370),
+        x: 700,
+        y: randRange(0, 400 - enemySize),
       }),
     );
     enemyId += 1;
