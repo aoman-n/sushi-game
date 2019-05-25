@@ -1,10 +1,17 @@
-import { all, fork, put, delay, takeEvery, select } from 'redux-saga/effects';
+import {
+  all,
+  fork,
+  put,
+  delay,
+  takeEvery,
+  select,
+  throttle,
+} from 'redux-saga/effects';
 import * as ActionType from '../actions/playerBulletConstants';
 import { generate, update, deleteBullet } from '../actions/playerBullet';
 
 const velocity = 20;
 let playerBulletId = 1;
-let bulletCoolTime = 0;
 
 /* TODO:
  * 現状、玉の数だけupdateが走り処理が重くなってしまうので、
@@ -31,16 +38,12 @@ function* movePlayerBullet(action: ReturnType<typeof generate>) {
 
 function* prepareBullet() {
   const { x, y } = yield select(state => state.player);
-  if (bulletCoolTime === 0) {
-    yield put(generate({ id: playerBulletId, x, y }));
-    playerBulletId = 20;
-  } else {
-    bulletCoolTime -= 1;
-  }
+  playerBulletId += 1;
+  yield put(generate({ id: playerBulletId, x, y }));
 }
 
 function* prepareBulletWatcher() {
-  yield takeEvery(ActionType.PREPARE_BULLET, prepareBullet);
+  yield throttle(800, ActionType.PREPARE_BULLET, prepareBullet);
 }
 
 function* generatePalyerBulletWatcher() {
