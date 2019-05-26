@@ -11,7 +11,7 @@ import { finishGame } from '../actions/app';
 import { clearEnemy } from '../actions/enemy';
 import { update, clear as clearPlayer } from '../actions/plaryer';
 import { Enemy } from '../reducers/enemy';
-import { playerSize } from '../config';
+import { playerSize, enemySize } from '../config';
 
 const velocity = 5;
 
@@ -28,10 +28,11 @@ function* updateWorker() {
     let { x, y }: { x: number; y: number } = player;
     const isHit = enemies.some((enemy: Enemy) => {
       return (
-        x < enemy.x &&
-        enemy.x < x + playerSize &&
-        y < enemy.y &&
-        enemy.y < y + playerSize
+        ((x >= enemy.x && x <= enemy.x + enemySize) ||
+          (x + playerSize >= enemy.x &&
+            x + playerSize < enemy.x + enemySize)) &&
+        ((y >= enemy.y && y <= enemy.y + enemySize) ||
+          (y + playerSize >= enemy.y && y + playerSize <= enemy.y + enemySize))
       );
     });
     if (isHit) yield put(finishGame());
