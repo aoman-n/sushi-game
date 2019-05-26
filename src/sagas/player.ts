@@ -19,6 +19,7 @@ export function* updatePlayerWorker() {
     let { x, y }: { x: number; y: number } = player;
     const isHit = enemies.some((enemy: Enemy) => {
       return (
+        /* TODO: 当たり判定の条件式をutil化する */
         ((x >= enemy.x && x <= enemy.x + enemySize) ||
           (x + playerSize >= enemy.x &&
             x + playerSize < enemy.x + enemySize)) &&

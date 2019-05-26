@@ -25,15 +25,21 @@ export function* updateEnemyWorker() {
 
       return newEnemy;
     });
-    // 枠外のenemyを削除
+
+    // 枠外に移動したenemyを削除
     let deletedEnemies = updatedEnemies.filter((enemy: Enemy) =>
       checkInFrame(enemy),
     );
-    // enemyに当たったbulletのidを配列に格納し、削除するために利用
+
+    // enemyに当たったbulletのidを配列に格納し、bulletを削除するために利用
+    // enemyのsagaにこのロジックがあるのはよくない。
+    // TODO: 現状、enemy, player, bulletの描画位置をそれぞれ別でupdateしているが、一箇所にまとめるべき(´・ω・｀)
     const hitBulletIds: number[] = [];
-    // bulletに当たった敵を削除
+
+    // bulletに当たったenemyを削除
     deletedEnemies = deletedEnemies.filter((enemy: Enemy) => {
       const isHit = bullets.some((bullet: Bullet) => {
+        /* TODO: 当たり判定の条件式をutil化する */
         const isHitBullet =
           ((enemy.x >= bullet.x && enemy.x <= bullet.x + playerBulletSize) ||
             (enemy.x + enemySize >= bullet.x &&
@@ -48,6 +54,7 @@ export function* updateEnemyWorker() {
 
       return !isHit;
     });
+
     if (hitBulletIds.length > 0)
       yield put(deleteBullets({ ids: hitBulletIds }));
     yield put(updateEnemies({ enemies: deletedEnemies }));
