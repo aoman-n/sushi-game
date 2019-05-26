@@ -1,21 +1,12 @@
-import {
-  fork,
-  put,
-  takeLeading,
-  take,
-  select,
-  delay,
-} from 'redux-saga/effects';
-import * as Actions from '../actions/appConstants';
+import { put, select, delay } from 'redux-saga/effects';
 import { finishGame } from '../actions/app';
-import { clearEnemy } from '../actions/enemy';
-import { update, clear as clearPlayer } from '../actions/plaryer';
+import { update } from '../actions/plaryer';
 import { Enemy } from '../reducers/enemy';
 import { playerSize, enemySize } from '../config';
 
 const velocity = 5;
 
-function* updateWorker() {
+export function* updatePlayerWorker() {
   while (true) {
     const {
       keyboard,
@@ -45,21 +36,4 @@ function* updateWorker() {
     yield put(update({ x, y }));
     yield delay(1000 / 60);
   }
-}
-
-function* gameStartWatcher() {
-  yield takeLeading(Actions.START_GAME, updateWorker);
-}
-
-function* gameFinishWatcher() {
-  while (true) {
-    yield take(Actions.FINISH_GAME);
-    yield put(clearEnemy());
-    yield put(clearPlayer());
-  }
-}
-
-export default function* rootSaga() {
-  yield fork(gameStartWatcher);
-  yield fork(gameFinishWatcher);
 }

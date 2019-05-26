@@ -1,10 +1,8 @@
 import { fork } from 'redux-saga/effects';
-import keyboard from './keyboard';
+import app from './app';
 import playerBullet from './playerBullet';
-import enemy from './enemy';
 
 export default function* rootSaga() {
-  yield fork(keyboard);
+  yield fork(app);
   yield fork(playerBullet);
-  yield fork(enemy);
 }

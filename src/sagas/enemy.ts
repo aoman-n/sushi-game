@@ -1,6 +1,5 @@
-import { fork, put, delay, select, takeLeading } from 'redux-saga/effects';
+import { put, delay, select } from 'redux-saga/effects';
 import { generateEnemy, updateEnemies } from '../actions/enemy';
-import * as Actions from '../actions/appConstants';
 import { Enemy } from '../reducers/enemy';
 import { checkInFrame, randRange } from '../utils';
 import { enemySize } from '../config';
@@ -9,7 +8,7 @@ const velocity = 5;
 const coolTimeMsec = 5000;
 let enemyId = 1;
 
-function* updateWorker() {
+export function* updateEnemyWorker() {
   while (true) {
     yield delay(1000 / 30);
     const {
@@ -30,7 +29,7 @@ function* updateWorker() {
   }
 }
 
-function* generateWorker() {
+export function* generateEnemyWorker() {
   while (true) {
     const { app } = yield select(state => state);
     if (!app.isPlaying) break;
@@ -44,13 +43,4 @@ function* generateWorker() {
     enemyId += 1;
     yield delay(coolTimeMsec);
   }
-}
-
-function* startGameWatcher() {
-  yield takeLeading(Actions.START_GAME, generateWorker);
-  yield takeLeading(Actions.START_GAME, updateWorker);
-}
-
-export default function* rootSaga() {
-  yield fork(startGameWatcher);
 }

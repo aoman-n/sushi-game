@@ -11,7 +11,7 @@ import { generate, updateBullets } from '../actions/playerBullet';
 import { Bullet } from '../reducers/playerBullet';
 import { checkInFrame } from '../utils';
 
-const velocity = 5;
+const velocity = 10;
 const coolTimeMsec = 800;
 let playerBulletId = 1;
 
