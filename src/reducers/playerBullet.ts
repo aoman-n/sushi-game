@@ -47,13 +47,16 @@ const playerBulletReducer: Reducer<PlayerBulletState, PlayerBulletAction> = (
         ...state,
         bullets: action.payload.params.bullets,
       };
-    case ActionType.DELETE:
+    case ActionType.DELETE_BULLETS: {
+      const deleteBulletIds = action.payload.params.ids;
+
       return {
         ...state,
-        bullet: state.bullets.filter(
-          bullet => bullet.id !== action.payload.params.id,
+        bullets: state.bullets.filter(
+          bullet => !deleteBulletIds.includes(bullet.id),
         ),
       };
+    }
     default: {
       /* eslint @typescript-eslint/no-unused-vars: 0 */
       const _: never = action;

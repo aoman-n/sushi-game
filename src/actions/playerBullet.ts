@@ -17,6 +17,10 @@ interface UpdateBulletsParams {
   bullets: Bullet[];
 }
 
+interface DeleteBulletsParams {
+  ids: number[];
+}
+
 export const prepareBullet = () => ({
   type: ActionType.PREPARE_BULLET as typeof ActionType.PREPARE_BULLET,
 });
@@ -36,8 +40,8 @@ export const updateBullets = (params: UpdateBulletsParams) => ({
   payload: { params },
 });
 
-export const deleteBullet = (params: { id: number }) => ({
-  type: ActionType.DELETE as typeof ActionType.DELETE,
+export const deleteBullets = (params: DeleteBulletsParams) => ({
+  type: ActionType.DELETE_BULLETS as typeof ActionType.DELETE_BULLETS,
   payload: { params },
 });
 
@@ -46,4 +50,4 @@ export type PlayerBulletAction =
   | ReturnType<typeof generate>
   | ReturnType<typeof update>
   | ReturnType<typeof updateBullets>
-  | ReturnType<typeof deleteBullet>;
+  | ReturnType<typeof deleteBullets>;
