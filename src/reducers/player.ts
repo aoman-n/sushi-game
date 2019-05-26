@@ -22,9 +22,11 @@ const keyboardReducer: Reducer<PlayerState, PlayerAction> = (
 
       return { ...state, x, y };
     }
+    case ActionType.CLEAR:
+      return initialState;
     default: {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
-      const _: any = action;
+      /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
+      const _: never = action;
 
       return state;
     }

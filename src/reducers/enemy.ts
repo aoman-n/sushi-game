@@ -35,6 +35,8 @@ const enemyReducer: Reducer<EnemyState, EnemyAction> = (
       };
     case ActionType.DELETE:
       return state;
+    case ActionType.CLEAR:
+      return initialState;
     default: {
       /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
       const _: never = action;

@@ -3,15 +3,16 @@ import { FC } from 'react';
 import { jsx } from '@emotion/core';
 import styled from '@emotion/styled';
 
-interface TitleScreenProps {
+interface FinishScreenProps {
   startGame: () => void;
 }
 
-const TitleScreen: FC<TitleScreenProps> = ({ startGame }) => {
+const FinishScreen: FC<FinishScreenProps> = ({ startGame }) => {
   return (
     <Container>
+      <Info>GAME OVER</Info>
       <Button type="button" onClick={startGame}>
-        ゲームを始める
+        リトライ
       </Button>
     </Container>
   );
@@ -25,6 +26,16 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+`;
+const Info = styled.p`
+  text-align: center;
+  color: #fff;
+  font-size: 2em;
+  letter-spacing: 6px;
+  font-weight: 700;
+  text-shadow: 0 10px 10px rgba(0, 0, 0, 0.5);
+  margin-bottom: 30px;
 `;
 const Button = styled.button`
   background: #e0e1e2;
@@ -45,4 +56,4 @@ const Button = styled.button`
   }
 `;
 
-export default TitleScreen;
+export default FinishScreen;

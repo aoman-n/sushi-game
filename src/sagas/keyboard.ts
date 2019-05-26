@@ -1,7 +1,15 @@
-import { fork, put, takeLeading, select, delay } from 'redux-saga/effects';
+import {
+  fork,
+  put,
+  takeLeading,
+  take,
+  select,
+  delay,
+} from 'redux-saga/effects';
 import * as Actions from '../actions/appConstants';
 import { finishGame } from '../actions/app';
-import { update } from '../actions/plaryer';
+import { clearEnemy } from '../actions/enemy';
+import { update, clear as clearPlayer } from '../actions/plaryer';
 import { Enemy } from '../reducers/enemy';
 import { playerSize } from '../config';
 
@@ -42,6 +50,15 @@ function* gameStartWatcher() {
   yield takeLeading(Actions.START_GAME, updateWorker);
 }
 
+function* gameFinishWatcher() {
+  while (true) {
+    yield take(Actions.FINISH_GAME);
+    yield put(clearEnemy());
+    yield put(clearPlayer());
+  }
+}
+
 export default function* rootSaga() {
   yield fork(gameStartWatcher);
+  yield fork(gameFinishWatcher);
 }

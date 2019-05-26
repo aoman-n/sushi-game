@@ -4,6 +4,7 @@ import { jsx } from '@emotion/core';
 import { LayoutType } from '../reducers/app';
 import TitleScreenContainer from '../containers/TitleScreenContainer';
 import GameScreenContainer from '../containers/GameScreenContainer';
+import FinishScreenContainer from '../containers/FinishScreenContainer';
 
 export interface ScreensProps {
   layout: string;
@@ -16,7 +17,7 @@ const Screens: FC<ScreensProps> = ({ layout }) => {
     case LayoutType.GAME_SCREEN:
       return <GameScreenContainer />;
     case LayoutType.FINISH_SCREEN:
-      return <div>finish screen</div>;
+      return <FinishScreenContainer />;
     default: {
       return null;
     }

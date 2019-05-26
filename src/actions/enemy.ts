@@ -26,8 +26,13 @@ export const deleteEnemy = (params: { id: number }) => ({
   payload: { params },
 });
 
+export const clearEnemy = () => ({
+  type: ActionType.CLEAR as typeof ActionType.CLEAR,
+});
+
 export type EnemyAction =
   | ReturnType<typeof prepareEnemy>
   | ReturnType<typeof updateEnemies>
   | ReturnType<typeof generateEnemy>
-  | ReturnType<typeof deleteEnemy>;
+  | ReturnType<typeof deleteEnemy>
+  | ReturnType<typeof clearEnemy>;

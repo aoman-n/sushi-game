@@ -6,4 +6,8 @@ export const update = (params: PlayerState) => ({
   payload: { params },
 });
 
-export type PlayerAction = ReturnType<typeof update>;
+export const clear = () => ({
+  type: ActionType.CLEAR as typeof ActionType.CLEAR,
+});
+
+export type PlayerAction = ReturnType<typeof update> | ReturnType<typeof clear>;

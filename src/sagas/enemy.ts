@@ -12,7 +12,11 @@ let enemyId = 1;
 function* updateWorker() {
   while (true) {
     yield delay(1000 / 30);
-    const { enemies } = yield select(state => state.enemy);
+    const {
+      app,
+      enemy: { enemies },
+    } = yield select(state => state);
+    if (!app.isPlaying) break;
     const updatedEnemies = enemies.map((enemy: Enemy) => {
       const newEnemy = enemy;
       newEnemy.x -= velocity;
@@ -28,6 +32,8 @@ function* updateWorker() {
 
 function* generateWorker() {
   while (true) {
+    const { app } = yield select(state => state);
+    if (!app.isPlaying) break;
     yield put(
       generateEnemy({
         id: enemyId,
