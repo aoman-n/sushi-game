@@ -1,17 +1,32 @@
-import { fork, put, all, takeLeading, select, delay } from 'redux-saga/effects';
-import * as Actions from '../actions/keyboardConstants';
+import { fork, put, takeLeading, select, delay } from 'redux-saga/effects';
+import * as Actions from '../actions/appConstants';
+import { finishGame } from '../actions/app';
 import { update } from '../actions/plaryer';
+import { Enemy } from '../reducers/enemy';
 import { playerSize } from '../config';
 
 const velocity = 5;
 
 function* updateWorker() {
   while (true) {
-    const { keyboard, player } = yield select(state => state);
-    let { x, y }: { x: number; y: number } = player;
+    const {
+      keyboard,
+      player,
+      app,
+      enemy: { enemies },
+    } = yield select(state => state);
+    if (!app.isPlaying) break;
 
-    if (!keyboard.up && !keyboard.down && !keyboard.left && !keyboard.right)
-      break;
+    let { x, y }: { x: number; y: number } = player;
+    const isHit = enemies.some((enemy: Enemy) => {
+      return (
+        x < enemy.x &&
+        enemy.x < x + playerSize &&
+        y < enemy.y &&
+        enemy.y < y + playerSize
+      );
+    });
+    if (isHit) yield put(finishGame());
 
     if (keyboard.up && y > 0) y -= velocity;
     if (keyboard.down && y < 400 - playerSize) y += velocity;
@@ -23,18 +38,10 @@ function* updateWorker() {
   }
 }
 
-function* keyboardWatcher() {
-  yield takeLeading(
-    [
-      Actions.DOWN_START,
-      Actions.LEFT_START,
-      Actions.RIGHT_START,
-      Actions.UP_START,
-    ],
-    updateWorker,
-  );
+function* gameStartWatcher() {
+  yield takeLeading(Actions.START_GAME, updateWorker);
 }
 
 export default function* rootSaga() {
-  yield all([fork(keyboardWatcher)]);
+  yield fork(gameStartWatcher);
 }
