@@ -21,8 +21,6 @@ const enemyReducer: Reducer<EnemyState, EnemyAction> = (
   action: EnemyAction,
 ) => {
   switch (action.type) {
-    case ActionType.PREPARE_ENEMY:
-      return state;
     case ActionType.GENERATE:
       return {
         ...state,
@@ -33,8 +31,6 @@ const enemyReducer: Reducer<EnemyState, EnemyAction> = (
         ...state,
         enemies: action.payload.params.enemies,
       };
-    case ActionType.DELETE:
-      return state;
     case ActionType.CLEAR:
       return initialState;
     default: {

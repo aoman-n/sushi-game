@@ -5,11 +5,6 @@ interface UpdateEnemiesParams {
   enemies: Enemy[];
 }
 
-// 必要なさそう
-export const prepareEnemy = () => ({
-  type: ActionType.PREPARE_ENEMY as typeof ActionType.PREPARE_ENEMY,
-});
-
 export const generateEnemy = (params: Enemy) => ({
   type: ActionType.GENERATE as typeof ActionType.GENERATE,
   payload: { params },
@@ -20,19 +15,17 @@ export const updateEnemies = (params: UpdateEnemiesParams) => ({
   payload: { params },
 });
 
-// 必要なさそう
-export const deleteEnemy = (params: { id: number }) => ({
-  type: ActionType.DELETE as typeof ActionType.DELETE,
-  payload: { params },
-});
+// export const deleteEnemy = (params: { id: number }) => ({
+//   type: ActionType.DELETE as typeof ActionType.DELETE,
+//   payload: { params },
+// });
 
 export const clearEnemy = () => ({
   type: ActionType.CLEAR as typeof ActionType.CLEAR,
 });
 
 export type EnemyAction =
-  | ReturnType<typeof prepareEnemy>
   | ReturnType<typeof updateEnemies>
   | ReturnType<typeof generateEnemy>
-  | ReturnType<typeof deleteEnemy>
+  // | ReturnType<typeof deleteEnemy>
   | ReturnType<typeof clearEnemy>;
