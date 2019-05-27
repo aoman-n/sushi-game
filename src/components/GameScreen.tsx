@@ -18,12 +18,16 @@ interface Player {
 }
 
 interface GameScreenProps {
+  killCount: number;
+  level: number;
   player: Player;
   playerBullets: Bullet[];
   enemies: Enemy[];
 }
 
 const GameScreen: FC<GameScreenProps> = ({
+  killCount,
+  level,
   player,
   playerBullets,
   enemies,
@@ -51,6 +55,10 @@ const GameScreen: FC<GameScreenProps> = ({
           src={enemyImg}
         />
       ))}
+      <Info>
+        <p>現在のレベル: {level}</p>
+        <p>倒した数: {killCount}</p>
+      </Info>
     </Container>
   );
 };
@@ -86,6 +94,13 @@ const EnemyIcon = styled.img<PositionStyleProps>`
   position: absolute;
   top: ${props => props.y}px;
   left: ${props => props.x}px;
+`;
+const Info = styled.div`
+  position: absolute;
+  bottom: -100px;
+  right: 0;
+  font-size: 1.3em;
+  color: rgba(0, 0, 0, 0.6);
 `;
 
 export default GameScreen;

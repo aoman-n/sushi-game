@@ -21,6 +21,8 @@ import { Enemy } from '../reducers/enemy';
 import GameScreen from '../components/GameScreen';
 
 interface StateProps {
+  killCount: number;
+  level: number;
   player: PlayerState;
   playerBullets: Bullet[];
   enemies: Enemy[];
@@ -41,6 +43,8 @@ interface DispatchProps {
 type EnhancedGameScreenProps = StateProps & DispatchProps;
 
 const mapStateToProps = (state: RootStateType): StateProps => ({
+  killCount: state.app.killCount,
+  level: state.app.level,
   player: state.player,
   playerBullets: state.playerBullet.bullets,
   enemies: state.enemy.enemies,
@@ -64,6 +68,8 @@ const mapDispatchToProps = (dispatch: Dispatch): DispatchProps =>
 
 /* eslint no-shadow: 0 */
 const GameScreenContainer: FC<EnhancedGameScreenProps> = ({
+  killCount,
+  level,
   player,
   playerBullets,
   enemies,
@@ -122,7 +128,9 @@ const GameScreenContainer: FC<EnhancedGameScreenProps> = ({
     });
   }, []);
 
-  return <GameScreen {...{ player, playerBullets, enemies }} />;
+  return (
+    <GameScreen {...{ killCount, level, player, playerBullets, enemies }} />
+  );
 };
 
 export default connect(

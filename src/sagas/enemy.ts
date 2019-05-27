@@ -1,4 +1,5 @@
 import { put, delay, select } from 'redux-saga/effects';
+import { updateKillCount } from '../actions/app';
 import { generateEnemy, updateEnemies } from '../actions/enemy';
 import { deleteBullets } from '../actions/playerBullet';
 import { Enemy } from '../reducers/enemy';
@@ -7,8 +8,18 @@ import { checkInFrame, randRange } from '../utils';
 import { enemySize, playerBulletSize } from '../config';
 
 const velocity = 5;
-const coolTimeMsec = 1000;
 let enemyId = 1;
+const LEVEL_TO_COOLTIME: { [key: number]: number } = {
+  1: 3000,
+  2: 2000,
+  3: 1500,
+  4: 1000,
+  5: 800,
+  6: 700,
+  7: 600,
+  8: 500,
+};
+const MAX_COOL_TIME = 500;
 
 export function* updateEnemyWorker() {
   while (true) {
@@ -35,6 +46,7 @@ export function* updateEnemyWorker() {
     // enemyのsagaにこのロジックがあるのはよくない。
     // TODO: 現状、enemy, player, bulletの描画位置をそれぞれ別でupdateしているが、一箇所にまとめるべき(´・ω・｀)
     const hitBulletIds: number[] = [];
+    let killCount = 0;
 
     // bulletに当たったenemyを削除
     deletedEnemies = deletedEnemies.filter((enemy: Enemy) => {
@@ -47,7 +59,10 @@ export function* updateEnemyWorker() {
           ((enemy.y >= bullet.y && enemy.y <= bullet.y + playerBulletSize) ||
             (enemy.y + enemySize >= bullet.y &&
               enemy.y + enemySize <= bullet.y + playerBulletSize));
-        if (isHitBullet) hitBulletIds.push(bullet.id);
+        if (isHitBullet) {
+          killCount += 1;
+          hitBulletIds.push(bullet.id);
+        }
 
         return isHitBullet;
       });
@@ -55,8 +70,11 @@ export function* updateEnemyWorker() {
       return !isHit;
     });
 
-    if (hitBulletIds.length > 0)
+    // bulletを消す、killCountをアップデートする。
+    if (hitBulletIds.length > 0) {
       yield put(deleteBullets({ ids: hitBulletIds }));
+      yield put(updateKillCount({ killCount }));
+    }
     yield put(updateEnemies({ enemies: deletedEnemies }));
   }
 }
@@ -73,6 +91,6 @@ export function* generateEnemyWorker() {
       }),
     );
     enemyId += 1;
-    yield delay(coolTimeMsec);
+    yield delay(LEVEL_TO_COOLTIME[app.level] || MAX_COOL_TIME);
   }
 }
