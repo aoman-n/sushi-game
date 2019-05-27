@@ -19,9 +19,9 @@ const LEVEL_UP_INTERVAL = 10000;
 
 function* incrementLevelWorker() {
   while (true) {
+    yield delay(LEVEL_UP_INTERVAL);
     const { isPlaying } = yield select(state => state.app);
     if (!isPlaying) break;
-    yield delay(LEVEL_UP_INTERVAL);
     yield put(incrementLevel());
   }
 }

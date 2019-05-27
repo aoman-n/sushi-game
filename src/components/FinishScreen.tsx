@@ -4,13 +4,28 @@ import { jsx } from '@emotion/core';
 import styled from '@emotion/styled';
 
 interface FinishScreenProps {
+  level: number;
+  killCount: number;
   startGame: () => void;
 }
 
-const FinishScreen: FC<FinishScreenProps> = ({ startGame }) => {
+const FinishScreen: FC<FinishScreenProps> = ({
+  level,
+  killCount,
+  startGame,
+}) => {
   return (
     <Container>
       <Info>GAME OVER</Info>
+      <Score>
+        <SectionTitle>
+          <p>Score</p>
+        </SectionTitle>
+        <Content>
+          <Item>レベル: {level}</Item>
+          <Item>敵を倒した数: {killCount}</Item>
+        </Content>
+      </Score>
       <Button type="button" onClick={startGame}>
         リトライ
       </Button>
@@ -36,6 +51,28 @@ const Info = styled.p`
   font-weight: 700;
   text-shadow: 0 10px 10px rgba(0, 0, 0, 0.5);
   margin-bottom: 30px;
+`;
+const Score = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 300px;
+  height: 80px;
+  color: #f5f5f5;
+  margin-bottom: 25px;
+
+  & p {
+    margin: 0;
+  }
+`;
+const Item = styled.p`
+  padding: 4px;
+`;
+const SectionTitle = styled.div`
+  font-size: 1.5em;
+`;
+const Content = styled.div`
+  font-size: 1em;
 `;
 const Button = styled.button`
   background: #e0e1e2;

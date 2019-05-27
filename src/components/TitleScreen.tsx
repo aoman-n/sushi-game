@@ -10,6 +10,10 @@ interface TitleScreenProps {
 const TitleScreen: FC<TitleScreenProps> = ({ startGame }) => {
   return (
     <Container>
+      <Description>
+        <p>移動: 矢印キー</p>
+        <p>わさびを発射: Zキー</p>
+      </Description>
       <Button type="button" onClick={startGame}>
         ゲームを始める
       </Button>
@@ -25,6 +29,10 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+`;
+const Description = styled.div`
+  color: rgba(255, 255, 255, 1);
 `;
 const Button = styled.button`
   background: #e0e1e2;
