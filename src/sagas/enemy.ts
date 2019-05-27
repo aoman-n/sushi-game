@@ -7,8 +7,7 @@ import { Bullet } from '../reducers/playerBullet';
 import { checkInFrame, randRange } from '../utils';
 import { enemySize, playerBulletSize } from '../config';
 
-const velocity = 5;
-let enemyId = 1;
+const VELOCITY = 5;
 const LEVEL_TO_COOLTIME: { [key: number]: number } = {
   1: 3000,
   2: 2000,
@@ -20,6 +19,7 @@ const LEVEL_TO_COOLTIME: { [key: number]: number } = {
   8: 500,
 };
 const MAX_COOL_TIME = 500;
+let enemyId = 1;
 
 export function* updateEnemyWorker() {
   while (true) {
@@ -32,7 +32,7 @@ export function* updateEnemyWorker() {
     if (!app.isPlaying) break;
     const updatedEnemies = enemies.map((enemy: Enemy) => {
       const newEnemy = enemy;
-      newEnemy.x -= velocity;
+      newEnemy.x -= VELOCITY;
 
       return newEnemy;
     });

@@ -11,8 +11,8 @@ import { generate, updateBullets } from '../actions/playerBullet';
 import { Bullet } from '../reducers/playerBullet';
 import { checkInFrame } from '../utils';
 
-const velocity = 10;
-const coolTimeMsec = 800;
+const VELOCITY = 10;
+const COOL_TIME = 800;
 let playerBulletId = 1;
 
 function* updateWorker() {
@@ -22,7 +22,7 @@ function* updateWorker() {
     if (bullets.length === 0) break;
     const updatedBullets = bullets.map((bullet: Bullet) => {
       const newBullet = bullet;
-      newBullet.x += velocity;
+      newBullet.x += VELOCITY;
 
       return newBullet;
     });
@@ -40,7 +40,7 @@ function* prepareBullet() {
 }
 
 function* prepareBulletWatcher() {
-  yield throttle(coolTimeMsec, Actions.PREPARE_BULLET, prepareBullet);
+  yield throttle(COOL_TIME, Actions.PREPARE_BULLET, prepareBullet);
 }
 
 function* generatePalyerBulletWatcher() {

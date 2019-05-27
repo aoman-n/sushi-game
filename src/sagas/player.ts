@@ -4,7 +4,7 @@ import { update } from '../actions/plaryer';
 import { Enemy } from '../reducers/enemy';
 import { playerSize, enemySize } from '../config';
 
-const velocity = 5;
+const VELOCITY = 5;
 
 export function* updatePlayerWorker() {
   while (true) {
@@ -29,10 +29,10 @@ export function* updatePlayerWorker() {
     });
     if (isHit) yield put(finishGame());
 
-    if (keyboard.up && y > 0) y -= velocity;
-    if (keyboard.down && y < 400 - playerSize) y += velocity;
-    if (keyboard.left && x > 0) x -= velocity;
-    if (keyboard.right && x < 700 - playerSize) x += velocity;
+    if (keyboard.up && y > 0) y -= VELOCITY;
+    if (keyboard.down && y < 400 - playerSize) y += VELOCITY;
+    if (keyboard.left && x > 0) x -= VELOCITY;
+    if (keyboard.right && x < 700 - playerSize) x += VELOCITY;
 
     yield put(update({ x, y }));
     yield delay(1000 / 60);

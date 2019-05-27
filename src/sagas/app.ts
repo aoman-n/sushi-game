@@ -15,13 +15,13 @@ import { clear as clearPlayer } from '../actions/plaryer';
 import { updatePlayerWorker } from './player';
 import { generateEnemyWorker, updateEnemyWorker } from './enemy';
 
-const levelUpInterval = 10000;
+const LEVEL_UP_INTERVAL = 10000;
 
 function* incrementLevelWorker() {
   while (true) {
     const { isPlaying } = yield select(state => state.app);
     if (!isPlaying) break;
-    yield delay(levelUpInterval);
+    yield delay(LEVEL_UP_INTERVAL);
     yield put(incrementLevel());
   }
 }
